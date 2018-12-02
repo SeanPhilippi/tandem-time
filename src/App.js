@@ -1,25 +1,40 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import GameDetail from './components/GameDetail';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 class App extends Component {
+  // array of objects w id and name
+  state = {
+    games: []
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3001/games', { mode: 'no-cors' })
+      .then(data => {
+        console.log(data);
+        return this.setState({ games: data })
+      })
+      .catch(console.error);
+  }
+
+  renderGames = () => {
+    return this.state.games.map(game => {
+      return (
+        <GameDetail game={game} />
+      )
+    })
+  }
+
   render() {
+
+    console.log(this.state)
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Header />
+        {this.renderGames()}
+        <Footer />
       </div>
     );
   }
