@@ -1,27 +1,32 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import games from './games';
+import store from './games';
 
 const app = express();
 
-const simplifiedGames = games.map(({id, name}) => ({
+const simplifiedGames = store.games.map(({id, name}) => ({
     id,
     name,
 }));
 
 app.use(bodyParser.json());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.get('/', (req, res) => {
-    res.send('Wrong endpoint, try again :P');
+    res.json('Wrong endpoint, try again :P');
 });
 
 app.get('/games', (req, res) => {
-    res.status(200).send(simplifiedGames);
+    res.status(200).json(simplifiedGames);
 });
 
 app.get('/games/detail/:id', (req, res) => {
     res.status(200).send(
-        games.find(game => game.id = req.params.id)
+        store.games.find(game => game.id = req.params.id)
     );
 });
 
