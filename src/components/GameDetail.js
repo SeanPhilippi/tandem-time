@@ -1,23 +1,35 @@
 import React from 'react';
+import Button from './Button';
 
 class GameDetail extends React.Component {
 
+  displayDetails = () => {
+    const { id } = this.props.game.id;
+    const id = id;
+    fetch(`http://localhost:3001/games/${id}`)
+      .then(res => {
+        res.json().then(data => {
+          console.log(data);
+          return this.set
+        })
+      })
+    console.log(data);
+  }
+
   render() {
 
-    const { name, id } = this.props.game;
+    const { name, releaseDate, description, tags } = this.props.game.id;
 
     return (
       <div className="game" >
         <h4 className="name"><a href="">{name}</a>
         </h4>
-        <p>description</p>
+        <p>{description}</p>
         <div className="ratings">
-          <p>reviews</p>
-          <p>stars</p>
+          <p>{releaseDate}</p>
+          <p>{tags}</p>
         </div>
-        <button>
-          like
-        </button>
+        <Button onClick={displayDetails} />
       </div>
     )
   }

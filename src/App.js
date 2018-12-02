@@ -11,12 +11,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3001/games', { mode: 'no-cors' })
-      .then(data => {
-        console.log(data);
-        return this.setState({ games: data })
+    fetch('http://localhost:3001/games')
+      .then(res => {
+        res.json().then(data => {
+          console.log(data);
+          return this.setState({ games: data })
+        })
+          .catch(console.error);
       })
-      .catch(console.error);
   }
 
   renderGames = () => {
