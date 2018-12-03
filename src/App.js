@@ -11,6 +11,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    const fetch = require('node-fetch');
     fetch('http://localhost:3001/games')
       .then(res => {
         res.json().then(data => {
