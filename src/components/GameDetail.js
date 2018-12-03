@@ -20,6 +20,7 @@ class GameDetail extends React.Component {
   }
 
   renderDetails = () => {
+    // set this.state.details to details var
     const { details } = this.state;
     if (!details) return;
     return (
@@ -32,6 +33,11 @@ class GameDetail extends React.Component {
     )
   }
 
+  onClick = (id) => {
+    this.fetchDetails(id);
+    this.renderDetails();
+  }
+
   render() {
 
     const { name, releaseDate, description, tags, id } = this.props.game;
@@ -39,7 +45,7 @@ class GameDetail extends React.Component {
     return (
       <div className="game" >
         {this.renderDetails()}
-        <button onClick={() => this.fetchDetails(id)}>
+        <button onClick={() => this.onClick(id)}>
           show details
         </button>
       </div>

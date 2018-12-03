@@ -6,16 +6,16 @@ let games = store;
 
 const app = express();
 
-const simplifiedGames = games.map(({id, name}) => ({
+const simplifiedGames = games.map(({ id, name }) => ({
     id,
     name,
 }));
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
 
 app.get('/', (req, res) => {
@@ -28,7 +28,10 @@ app.get('/games', (req, res) => {
 
 app.get('/games/:id', (req, res) => {
     res.status(200).send(
-        games.find(game => game.id = req.params.id)
+        games.find(game => game.id === req.params.id).exec()
+            .then(details => {
+                return res.send(details);
+            })
     );
 });
 
