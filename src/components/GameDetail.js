@@ -7,6 +7,11 @@ class GameDetail extends React.Component {
     show: 'show'
   }
 
+  styling = {
+    marginBottom: '15px',
+    marginTop: '10px'
+  }
+
   fetchDetails = (id) => {
     this.setState({
       show: 'hide'
@@ -43,22 +48,15 @@ class GameDetail extends React.Component {
     )
   }
 
-  hideDetails = () => {
-    const { show } = this.state;
-    if (show === 'hide') {
-      return;
-    }
-  }
-
   render() {
 
     const { name, releaseDate, description, tags, id } = this.props.game;
     const { show } = this.state;
     return (
-      <div className="game" >
+      <div className="game">
         {name} <br />
         {this.renderDetails()}
-        <button onClick={() => this.fetchDetails(id)}>
+        <button onClick={() => this.fetchDetails(id)} style={this.styling}>
           {show} details
         </button>
       </div >
