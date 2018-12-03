@@ -8,22 +8,30 @@ class GameDetail extends React.Component {
   }
 
   fetchDetails = (id) => {
-    this.setState({ show: 'hide' });
-    console.log('id', id)
-    const fetch = require('node-fetch');
-    fetch(`http://localhost:3001/games/${id}`)
-      .then(res => {
-        res.json().then(data => {
-          console.log('data', data);
-          this.setState({ details: data });
+    this.setState({
+      show: 'hide'
+    });
+    const { details } = this.state;
+    if (!details) {
+      const fetch = require('node-fetch');
+      fetch(`http://localhost:3001/games/${id}`)
+        .then(res => {
+          res.json().then(data => {
+            console.log('data', data);
+            this.setState({ details: data });
+          })
         })
-      })
-    this.renderDetails();
+    } else if (details) {
+      this.setState({
+        details: null,
+        show: 'show'
+      });
+    }
   }
 
   renderDetails = () => {
     // set this.state.details to details var
-    const { details } = this.state;
+    const { details, show } = this.state;
     if (!details) return;
     return (
       <div className="details" >
@@ -36,7 +44,10 @@ class GameDetail extends React.Component {
   }
 
   hideDetails = () => {
-
+    const { show } = this.state;
+    if (show === 'hide') {
+      return;
+    }
   }
 
   render() {
@@ -45,12 +56,12 @@ class GameDetail extends React.Component {
     const { show } = this.state;
     return (
       <div className="game" >
-        {name}
+        {name} <br />
         {this.renderDetails()}
         <button onClick={() => this.fetchDetails(id)}>
           {show} details
         </button>
-      </div>
+      </div >
     )
   }
 }
