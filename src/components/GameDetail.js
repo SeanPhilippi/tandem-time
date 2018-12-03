@@ -3,10 +3,12 @@ import React from 'react';
 class GameDetail extends React.Component {
 
   state = {
-    details: null
+    details: null,
+    show: 'show'
   }
 
   fetchDetails = (id) => {
+    this.setState({ show: 'hide' });
     console.log('id', id)
     const fetch = require('node-fetch');
     fetch(`http://localhost:3001/games/${id}`)
@@ -33,20 +35,20 @@ class GameDetail extends React.Component {
     )
   }
 
-  onClick = (id) => {
-    this.fetchDetails(id);
-    this.renderDetails();
+  hideDetails = () => {
+
   }
 
   render() {
 
     const { name, releaseDate, description, tags, id } = this.props.game;
-
+    const { show } = this.state;
     return (
       <div className="game" >
+        {name}
         {this.renderDetails()}
-        <button onClick={() => this.onClick(id)}>
-          show details
+        <button onClick={() => this.fetchDetails(id)}>
+          {show} details
         </button>
       </div>
     )
