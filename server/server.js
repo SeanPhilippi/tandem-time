@@ -28,7 +28,7 @@ app.get('/games', (req, res) => {
 
 app.get('/games/:id', (req, res) => {
     res.status(200).send(
-        games.find(game => game.id = req.params.id)
+        games.find(game => game.id == req.params.id)
     );
 });
 
