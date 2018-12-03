@@ -6,7 +6,7 @@ let games = store;
 
 const app = express();
 
-const simplifiedGames = games.map(({id, name}) => ({
+const simplifiedGames = () => games.map(({id, name}) => ({
     id,
     name,
 }));
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/games', (req, res) => {
-    res.status(200).json(simplifiedGames);
+    res.status(200).send(simplifiedGames());
 });
 
 app.get('/games/:id', (req, res) => {
@@ -32,8 +32,22 @@ app.get('/games/:id', (req, res) => {
     );
 });
 
-app.get('/games/add', (req, res) => {
-    res.status(200).send('wip');
+app.post('/games/add', (req, res) => {
+    const game = req.query
+    if (!game.name) return res.status(400).send({
+        message: 'Invalid game format'
+    });
+    game.id = 123000 + games.length + 1;
+    games.push(game);
+    res.status(200).send(game);
+});
+
+app.post('/games/edit/:id', (req, res) => {
+    const game = req.query;
+    if (!game.name) return res.status(400).send({
+        message: 'Invalid game format'
+    });
+    res.status(200).send(game);
 });
 
 app.get('/tags/:tag', (req, res) => {
